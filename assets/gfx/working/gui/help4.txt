@@ -1,0 +1,9 @@
+arrow keys - move
+X - attack
+up key - jump (when enabled)
+C - run (when enabled)
+K - stats screen
+P - pause
+You also damage enemies by falling on them.
+		Enjoy.
+(Press any key to return)
