@@ -48,13 +48,13 @@ package states {
 						(0xff000000, 1,
 								function():void { 
 									FlxG.mouse.hide();
-									FlxG.switchState(new PlayState());
+									FlxG.switchState(new PlayState(false, false, true));
 								} 
 						); 
 						FlxG.music.fadeOut(0.8);
 					} 
 				));
-			add(new FlxButton(160, 120, "HELP",
+			add(new FlxButton(145, 100, "HELP",
 					function():void {
 						(FlxG.getPlugin(DisplayMessage) as DisplayMessage).addToQueue(new text, 50, 50);
 						(FlxG.getPlugin(DisplayMessage) as DisplayMessage).addToQueue(new text2, 50, 50);
@@ -62,7 +62,32 @@ package states {
 						(FlxG.getPlugin(DisplayMessage) as DisplayMessage).addToQueue(new text4, 50, 30);
 					}
 				));
-			
+			add(new FlxButton(160, 125, "DEMO",
+					function():void {
+						FlxG.fade
+						(0xff000000, 1,
+								function():void { 
+									FlxG.mouse.hide();
+									FlxG.switchState(new PlayState(false, true, true));
+								} 
+						); 
+						FlxG.music.fadeOut(0.8);
+					} 
+				));
+			/*
+			add(new FlxButton(220, 210, "REC",
+					function():void {
+						FlxG.fade
+						(0xff000000, 1,
+								function():void { 
+									FlxG.mouse.hide();
+									FlxG.switchState(new PlayState(true, false, true));
+								} 
+						); 
+						FlxG.music.fadeOut(0.8);
+					} 
+				));
+			*/
 			(add(new FlxText(100, 30, 200, "EVO - X")) as FlxText).size = 16;
 			add(new FlxText(15, 235, 250, "A game by GFM - Made in 48h for LudumDare"));
 			

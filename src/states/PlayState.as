@@ -1,6 +1,7 @@
 package states {
 
 	import basic.BasicMob;
+	import flash.net.FileReference;
 	import mobs.Jumper;
 	import mobs.Runner;
 	import mobs.Player;
@@ -21,6 +22,7 @@ package states {
 	import utils.DisplayMessage;
 	import utils.FixedCamera;
 	import utils.LivesCounter;
+	import utils.RecDisplay;
 	import utils.SFX;
 	import utils.SkillScreen;
 	import utils.Upgrade;
@@ -30,6 +32,8 @@ package states {
 	 * @author GFM
 	 */
 	public class PlayState extends FlxState {
+		
+		[Embed(source = "../../assets/save/demo.txt", mimeType = 'application/octet-stream')]	private var rec:Class;
 		
 		static private var switchCam:Boolean = true;
 		
@@ -45,12 +49,36 @@ package states {
 		private var pauseSpr:FlxSprite;
 		private var wincondition:WinCondition;
 		
-		public function PlayState() {
+		static private var playDemo:Boolean;
+		static private var recordDemo:Boolean;
+		static private var dontRec:Boolean;
+		
+		public function PlayState(rec:Boolean = false, play:Boolean = false, myCall:Boolean = false) {
 			super();
+			if (myCall) {
+				recordDemo = rec;
+				playDemo = play;
+				dontRec = true;
+			}
+			else {
+				dontRec = false;
+			}
 		}
 		
 		override public function create():void {
 			super.create();
+			if (dontRec && recordDemo) {
+				FlxG.recordReplay(false);
+				FlxG.log("rec..");
+			}
+			else if (dontRec && playDemo) {
+				FlxG.log("play...");
+				// TODO add replay
+				FlxG.loadReplay(new rec, new PlayState());
+			}
+			else {
+				FlxG.log("gaming...");
+			}
 			
 			self = this;
 			
@@ -59,6 +87,9 @@ package states {
 			// life counter
 			FlxG.addPlugin(new LivesCounter());
 			FlxG.addPlugin(new SkillScreen());
+			if (playDemo) {
+				FlxG.addPlugin(new RecDisplay());
+			}
 			
 			// change the camera
 			if (switchCam) {
@@ -173,6 +204,12 @@ package states {
 					FlxG.fade(0xff000000, 1, function():void { FlxG.switchState(new MenuState()); } );
 					FlxG.music.fadeOut(0.8);
 				}/**/
+				else if (playDemo) {
+					   FlxG.removePluginType(RecDisplay);
+					   FlxG.stopReplay();
+					   FlxG.fade(0xff000000, 1, function():void { FlxG.switchState(new MenuState()); } );
+					   FlxG.music.fadeOut(0.8);
+				}
 				else {
 					(FlxG.getPlugin(DisplayMessage) as DisplayMessage).addToQueue("\n\n\t\t\tYou died.\n\n\n\tPress any key to go back to the menu.", 50, 50);
 					endgame = true;
