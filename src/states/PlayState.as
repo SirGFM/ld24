@@ -148,14 +148,14 @@ package states {
 			baddies.add(new Fish(173, 39, true));
 			baddies.add(new Fish(167, 40, true));
 			baddies.add(new Fish(197, 40, true));
-			/*
+			
 			baddies.add(new Checkpoint(14, 9));
 			baddies.add(new Checkpoint(128, 24));
 			baddies.add(new Checkpoint(48, 25));
 			baddies.add(new Checkpoint(28, 27));
 			baddies.add(new Checkpoint(156, 30));
 			baddies.add(new Checkpoint(50, 35));
-			*/
+			
 			
 			baddies.add(projectiles);
 			
@@ -203,19 +203,34 @@ package states {
 				if (endgame && !((FlxG.getPlugin(DisplayMessage)).alive)) {
 					FlxG.fade(0xff000000, 1, function():void { FlxG.switchState(new MenuState()); } );
 					FlxG.music.fadeOut(0.8);
-				}/**/
-				else if (playDemo) {
-					   FlxG.removePluginType(RecDisplay);
-					   FlxG.stopReplay();
-					   FlxG.fade(0xff000000, 1, function():void { FlxG.switchState(new MenuState()); } );
-					   FlxG.music.fadeOut(0.8);
-				}
+				}/*
 				else {
-					(FlxG.getPlugin(DisplayMessage) as DisplayMessage).addToQueue("\n\n\t\t\tYou died.\n\n\n\tPress any key to go back to the menu.", 50, 50);
-					endgame = true;
+					if (recordDemo) {
+						FlxG.log("request save...");
+						var fileRef:FileReference=new FileReference();
+						fileRef.save(FlxG.stopRecording(), "rec.txt");
+						FlxG.fade(0xff000000, 1, function():void { FlxG.switchState(new MenuState()); } );
+						FlxG.music.fadeOut(0.8);
+					}
+					else if (playDemo) {
+						FlxG.removePluginType(RecDisplay);
+						FlxG.stopReplay();
+						FlxG.fade(0xff000000, 1, function():void { FlxG.switchState(new MenuState()); } );
+						FlxG.music.fadeOut(0.8);
+					}
+					else {
+						(FlxG.getPlugin(DisplayMessage) as DisplayMessage).addToQueue("\n\n\t\t\tYou died.\n\n\n\tPress any key to go back to the menu.", 50, 50);
+						endgame = true;
+					}
 				}
-				/*
-				if((Checkpoint.last != null) && !(Checkpoint.last is FlxPoint)){
+				/**/
+				if (playDemo) {
+					FlxG.removePluginType(RecDisplay);
+					FlxG.stopReplay();
+					FlxG.fade(0xff000000, 1, function():void { FlxG.switchState(new MenuState()); } );
+					FlxG.music.fadeOut(0.8);
+				}
+				else if((Checkpoint.last != null) && !(Checkpoint.last is FlxPoint)){
 					FlxG.flash(0xffffffff, 0.5, function():void{Checkpoint.last.recover(player)});
 				}
 				else {

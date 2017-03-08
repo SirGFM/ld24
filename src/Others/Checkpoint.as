@@ -13,7 +13,7 @@ package Others {
 	 */
 	public class Checkpoint extends BasicMob {
 		
-		public static var last:Checkpoint = null;
+		static public var last:Checkpoint = null;
 		private var memory:Array;
 		
 		public function Checkpoint(X:Number = 0, Y:Number = 0) {
@@ -37,7 +37,7 @@ package Others {
 			}
 			memory = pl.save();
 			// AAAAAARRRRRRG WHY DO i CODE USING THIS??? >_<
-			Checkpoint.last = (this as Checkpoint);
+			Checkpoint.last = this;
 			play("alive");
 		}
 		

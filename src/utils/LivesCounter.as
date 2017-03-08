@@ -76,7 +76,7 @@ package utils {
 		public function getLastDead():FlxBasic
 		{
 			var basic:FlxBasic;
-			var i:uint = length;
+			var i:int = length;
 			if (i == 0)
 				return null;
 			i--;
